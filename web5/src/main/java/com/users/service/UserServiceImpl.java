@@ -4,14 +4,12 @@ import com.users.dao.UserDao;
 import com.users.exception.DBException;
 import com.users.model.User;
 import com.users.util.DaoType;
-import com.users.util.UserDaoFactory;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private String daoType = DaoType.getInstance().getProperties();
-    private UserDao userDao = UserDaoFactory.getUserDAO(daoType);
+    private UserDao userDao = DaoType.getUserDaoType();
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() throws DBException {

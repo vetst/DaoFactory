@@ -1,35 +1,25 @@
 package com.users.util;
 
+import com.users.dao.UserDao;
 import com.users.exception.DBException;
-import com.users.service.UserServiceImpl;
 
 import java.io.InputStream;
 import java.util.Properties;
 
 public class DaoType {
 
-    private static DaoType INSTANCE;
+    private static Properties properties = new Properties();
 
-    private DaoType() {
-
-    }
-
-    public static DaoType getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new DaoType();
-        }
-        return INSTANCE;
-    }
-
-    public String getProperties() throws DBException {
-        String db = null;
-        Properties properties = new Properties();
-        try (InputStream fis = UserServiceImpl.class.getResourceAsStream("/config.properties")) {
+    static {
+        try (InputStream fis = DaoType.class.getResourceAsStream("/config.properties")) {
             properties.load(fis);
-            db = properties.getProperty("daotype");
         } catch (Exception e) {
-            throw new DBException("Файл свойств не найден", e);
+            e.printStackTrace();
         }
-        return db;
+    }
+
+    public static UserDao getUserDaoType() throws DBException {
+        UserDao userDaoType = new UserDaoFactory().getUserDAO(properties.getProperty("daotype"));
+        return userDaoType;
     }
 }
