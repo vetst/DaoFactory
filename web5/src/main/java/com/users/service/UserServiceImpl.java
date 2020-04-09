@@ -3,15 +3,15 @@ package com.users.service;
 import com.users.dao.UserDao;
 import com.users.exception.DBException;
 import com.users.model.User;
+import com.users.util.DaoType;
 import com.users.util.UserDaoFactory;
 
-import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = UserDaoFactory.getInstance().getUserDAO(loadProperties());
+    private String daoType = DaoType.getInstance().getProperties();
+    private UserDao userDao = UserDaoFactory.getUserDAO(daoType);
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() throws DBException {
@@ -27,18 +27,6 @@ public class UserServiceImpl implements UserService {
             }
         }
         return INSTANCE;
-    }
-
-    private String loadProperties() throws DBException {
-        String db = null;
-        Properties properties = new Properties();
-        try (InputStream fis = UserServiceImpl.class.getResourceAsStream("/config.properties")) {
-            properties.load(fis);
-            db = properties.getProperty("daotype");
-        } catch (Exception e) {
-            throw new DBException("Файл свойств не найден", e);
-        }
-        return db;
     }
 
     public boolean addUser(String name, String surName) throws DBException {

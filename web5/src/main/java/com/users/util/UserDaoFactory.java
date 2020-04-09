@@ -7,19 +7,6 @@ import com.users.exception.DBException;
 
 public class UserDaoFactory {
 
-    private static UserDaoFactory INSTANCE;
-
-    private UserDaoFactory() {
-
-    }
-
-    public static UserDaoFactory getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserDaoFactory();
-        }
-        return INSTANCE;
-    }
-
     public static UserDao getUserDAO(String type) throws DBException {
         if (type.equalsIgnoreCase("DaoJDBC")) {
             return new MySqlUserDao();
