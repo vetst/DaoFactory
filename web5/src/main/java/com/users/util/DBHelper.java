@@ -34,7 +34,7 @@ public class DBHelper {
         return sessionFactory;
     }
 
-    public Connection getMysqlConnection() {
+    public static Connection getMysqlConnection() {
         try {
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
             StringBuilder url = new StringBuilder();
@@ -44,7 +44,7 @@ public class DBHelper {
                     append("3306/").                //port
                     append("db_user?").          //db name
                     append("user=root&").          //login
-                    append("password=root");
+                    append("password=342900");
             System.out.println("URL: " + url + "\n");
             Connection connection = DriverManager.getConnection(url.toString());
             return connection;
@@ -62,7 +62,7 @@ public class DBHelper {
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example");
         configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
+        configuration.setProperty("hibernate.connection.password", "342900");
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         return configuration;

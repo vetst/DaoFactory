@@ -5,10 +5,13 @@ import com.users.exception.DBException;
 import com.users.model.User;
 import com.users.util.UserDaoFactory;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 public class UserServiceImpl implements UserService {
 
+    private UserDao userDao = UserDaoFactory.getInstance().getUserDAO(loadProperties());
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() throws DBException {
@@ -26,7 +29,17 @@ public class UserServiceImpl implements UserService {
         return INSTANCE;
     }
 
-    private UserDao userDao = UserDaoFactory.getUserDAO();
+    private String loadProperties() throws DBException {
+        String db = null;
+        Properties properties = new Properties();
+        try (InputStream fis = UserServiceImpl.class.getResourceAsStream("/config.properties")) {
+            properties.load(fis);
+            db = properties.getProperty("daotype");
+        } catch (Exception e) {
+            throw new DBException("Файл свойств не найден", e);
+        }
+        return db;
+    }
 
     public boolean addUser(String name, String surName) throws DBException {
         try {
@@ -65,7 +78,7 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
         } catch (Exception e) {
-            new DBException("Не могу удалить пользователя", e);
+            throw new DBException("Не могу удалить пользователя", e);
         }
         return false;
     }
@@ -77,5 +90,4 @@ public class UserServiceImpl implements UserService {
             throw new DBException("Не могу получить список пользователей", e);
         }
     }
-
 }

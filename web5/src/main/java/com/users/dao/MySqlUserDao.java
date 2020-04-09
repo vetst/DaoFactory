@@ -52,7 +52,7 @@ public class MySqlUserDao implements UserDao {
     public void addUser(User user) throws SQLException, DBException {
         String addQuery = "insert into users (name, surname) values (?, ?)";
         try (Connection connection = DBHelper.getInstance().getMysqlConnection();
-             PreparedStatement statement = connection.prepareStatement(addQuery);) {
+             PreparedStatement statement = connection.prepareStatement(addQuery)) {
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurName());
