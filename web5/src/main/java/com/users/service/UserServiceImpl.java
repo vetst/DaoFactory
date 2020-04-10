@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = DaoType.getUserDaoType();
+    private UserDao userDao = DaoType.getUserDaoType("daotype");
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() throws DBException {
