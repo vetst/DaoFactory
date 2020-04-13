@@ -15,6 +15,6 @@ public class UserDaoFactory {
         } else if (db.equalsIgnoreCase("Hiber")) {
             return new UserHibernateDAO();
         }
-        return null;
+        throw new  DBException("Неправильно переданный парамтр в методе getUserDao");
     }
 }
