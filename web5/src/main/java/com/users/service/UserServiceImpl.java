@@ -3,13 +3,13 @@ package com.users.service;
 import com.users.dao.UserDao;
 import com.users.exception.DBException;
 import com.users.model.User;
-import com.users.util.DaoType;
+import com.users.util.UserDaoFactory;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDao userDao = DaoType.getUserDaoType("daotype");
+    private UserDao userDao = UserDaoFactory.getUserDAO();
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() throws DBException {
